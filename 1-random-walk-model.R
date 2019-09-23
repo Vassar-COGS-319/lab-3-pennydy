@@ -10,6 +10,21 @@
 # criterion is the threshold for a response (default value is 3)
 
 random.walk.model <- function(samples, drift=0, sdrw=0.3, criterion=3){
+  rt.array <- rep(0, samples)
+  accuracy.array <- rep(TRUE, samples)
+  evidence.array <- rep(0, samples)
+  
+  for(i in 1:samples){
+    while(abs(evidence.array[i])<criterion){
+      evidence.array[i] <- evidence.array[i] + rnorm(1, drift, sdrw)
+      rt.array[i] <- rt.array[i] + 1
+    }
+    if(evidence.array[i]<(-criterion)){
+      accuracy.array[i] <- FALSE
+    } else {
+      accuracy.array[i] <- TRUE
+    }
+  }
   
   output <- data.frame(
     correct = accuracy.array,
@@ -40,3 +55,4 @@ incorrect.data <- initial.test %>% filter(correct==FALSE)
 
 hist(correct.data$rt)
 hist(incorrect.data$rt)
+
