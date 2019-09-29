@@ -31,8 +31,7 @@ accumulator.model <- function(samples, rate.1=40, rate.2=40, criterion=3){
     if(evidence.correct.array[i] != evidence.incorrect.array[i]){
       if(evidence.correct.array[i]>=criterion){
         accuracy.array[i] <- TRUE
-      }
-      if(evidence.incorrect.array[i]>=criterion){
+      } else {
         accuracy.array[i] <- FALSE
       }
     } else {
